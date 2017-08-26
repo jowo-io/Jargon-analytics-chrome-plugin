@@ -1,0 +1,10 @@
+/* these classes are added to the highlighted words and the holder respectively */
+.lolkeg {
+	background-color: green !important;
+}
+.masterkeg {
+	background-color: green;
+	width: 300px;
+	position: absolute;
+	height: auto;
+}
