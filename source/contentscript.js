@@ -15,20 +15,6 @@ if (!localStorage[storageNamespace]) {
   });
 }
 
-/*
-*
-*
-*
-* The plan:
-* CHECK - split dictionary keys into an array of words.
-* CHECK - sort dictionary by key array length
-* CHECK - look for a match of the first word of the key's word array.
-* if match found on first word, check rest.
-*
-*
-*
-*/
-
 //gets the data from browser storage and converts it from a string to a javascript object
 //if any keys have more than one word create an array of words
 var data = (function(data) {
@@ -71,7 +57,6 @@ function compareStrings(str1, str2) {
       var node = element.childNodes[j];
       if (node.nodeType === 3) {
         var text = node.nodeValue;
-        console.log(text);
         var textArray = text.split(" ");
         var replacedArray = [];
         var changed = false;
@@ -122,7 +107,6 @@ function compareStrings(str1, str2) {
       }
     }
   }
-  console.log(pairs[0]);
   for (var j = 0; j < pairs.length; j++) {
     pairs[j].element.replaceChild($(pairs[j].new)[0], pairs[j].old);
   }
