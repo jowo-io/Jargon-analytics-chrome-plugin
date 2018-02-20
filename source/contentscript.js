@@ -1,13 +1,17 @@
 //define the name of the storage variable.
-var storageNamespace = "lolkeg_data";
+var storageNamespace = "lolkeg_data3";
 
 //checks browser storage for previously saved data
 //and if it doesnt exist we define a default.
 if (!localStorage[storageNamespace]) {
   localStorage[storageNamespace] = JSON.stringify({
-    lorem: "hats hats hats far away.",
+    lorem: "The word you're looking at is 'lorum'.",
     ipsum:
-      "pah babababababa babbababa. \n\n\n http://soapbox.github.io/linkifyjs/docs/"
+      "The word you're looking at is 'ipsum'. \n URL for plugin on GitHub: http://bit.ly/2C8995a",
+
+    "of the": "The phrase you're looking at is 'of the'.",
+    "not only five centuries":
+      "The phrase you're looking at is 'not only five centuries'."
   });
 }
 
@@ -16,9 +20,9 @@ if (!localStorage[storageNamespace]) {
 *
 *
 * The plan:
-* split dictionary keys into an array of words.
-* sort dictionary by key array length
-* check for a match of the first word of the key's word array.
+* CHECK - split dictionary keys into an array of words.
+* CHECK - sort dictionary by key array length
+* CHECK - look for a match of the first word of the key's word array.
 * if match found on first word, check rest.
 *
 *
@@ -26,7 +30,24 @@ if (!localStorage[storageNamespace]) {
 */
 
 //gets the data from browser storage and converts it from a string to a javascript object
-var data = JSON.parse(localStorage[storageNamespace]);
+//if any keys have more than one word create an array of words
+var data = (function(data) {
+  var array = [],
+    key;
+  for (var key in data) {
+    var words = key.split(" ");
+    array.push({
+      words: key.split(" "),
+      description: data[key]
+    });
+  }
+  //sort the array so longer phrases take priority
+  return array.sort(function(a, b) {
+    return b.words.length - a.words.length;
+  });
+})(JSON.parse(localStorage[storageNamespace]));
+
+console.log(data);
 
 //this code loops through the entire DOM, looking for html elements/ text elements
 //and within those it looks for words matching the uploaded data set
@@ -52,14 +73,15 @@ var data = JSON.parse(localStorage[storageNamespace]);
         for (var k = 0; k < textArray.length; k++) {
           replacedArray.push(textArray[k]);
           for (var key in data) {
-            var str = textArray[k].toLowerCase().replace(/^[a-z ]$/i, "");
+            var str = textArray[k].toLowerCase().replace(/^[a-z ]$/i, ""),
+              firstWord = data[key].words[0];
             if (
-              (str.indexOf(key) === 0 || str === key + "s") &&
-              str.length <= key.length + 1
+              (str.indexOf(firstWord) === 0 || str === firstWord + "s") &&
+              str.length <= firstWord.length + 1
             ) {
               replacedArray[k] =
                 "<span class='lolkeg' keyword='" +
-                key +
+                firstWord +
                 "'>" +
                 textArray[k] +
                 "</span>";
