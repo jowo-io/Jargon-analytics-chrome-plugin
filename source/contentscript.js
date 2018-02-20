@@ -37,6 +37,7 @@ var data = (function(data) {
   for (var key in data) {
     var words = key.split(" ");
     array.push({
+      key: key,
       words: key.split(" "),
       description: data[key]
     });
@@ -72,16 +73,16 @@ console.log(data);
 
         for (var k = 0; k < textArray.length; k++) {
           replacedArray.push(textArray[k]);
-          for (var key in data) {
+          for (var l = 0; l < data.length; l++) {
             var str = textArray[k].toLowerCase().replace(/^[a-z ]$/i, ""),
-              firstWord = data[key].words[0];
+              firstWord = data[l].words[0];
             if (
               (str.indexOf(firstWord) === 0 || str === firstWord + "s") &&
               str.length <= firstWord.length + 1
             ) {
               replacedArray[k] =
-                "<span class='lolkeg' keyword='" +
-                firstWord +
+                "<span class='lolkeg' index='" +
+                l +
                 "'>" +
                 textArray[k] +
                 "</span>";
@@ -144,11 +145,11 @@ words.mouseover(function(event) {
 
   //get the keyword from the html word element and use it to
   //to get the description of the same word from the data var
-  var key = $(event.target).attr("keyword");
+  var index = $(event.target).attr("index");
   var text = "";
-  text += titleCase(key); //add the keyword to the top in uppercase
+  text += titleCase(data[index].key); //add the keyword to the top in uppercase
   text += "<br>"; //add linebreak
-  text += data[key].replace(/\n/g, "<br>"); //add the description with any \n turned into html linebreaks
+  text += data[index].description.replace(/\n/g, "<br>"); //add the description with any \n turned into html linebreaks
   holder.html(text); //set the text to be inside the holder element
 
   //add position and display to block, which makes the holder visible again
