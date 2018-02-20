@@ -48,7 +48,12 @@ var data = (function(data) {
   });
 })(JSON.parse(localStorage[storageNamespace]));
 
-console.log(data);
+function compareStrings(str1, str2) {
+  return (
+    (str1.indexOf(str2) === 0 || str1 === str2 + "s") &&
+    str1.length <= str2.length + 1
+  );
+}
 
 //this code loops through the entire DOM, looking for html elements/ text elements
 //and within those it looks for words matching the uploaded data set
@@ -70,21 +75,35 @@ console.log(data);
         var textArray = text.split(" ");
         var replacedArray = [];
         var changed = false;
-
+        var matchedArray = [];
         for (var k = 0; k < textArray.length; k++) {
           replacedArray.push(textArray[k]);
           for (var l = 0; l < data.length; l++) {
-            var str = textArray[k].toLowerCase().replace(/^[a-z ]$/i, ""),
-              firstWord = data[l].words[0];
-            if (
-              (str.indexOf(firstWord) === 0 || str === firstWord + "s") &&
-              str.length <= firstWord.length + 1
-            ) {
+            for (var m = 0; m < data[l].words.length; m++) {
+              var wordHtmlOrignal = textArray[k + m],
+                wordHtmlLC,
+                wordData = data[l].words[m];
+              if (wordHtmlOrignal && wordData) {
+                wordHtmlLC = wordHtmlOrignal
+                  .toLowerCase()
+                  .replace(/^[a-z ]$/i, "");
+                if (compareStrings(wordHtmlLC, wordData)) {
+                  matchedArray.push(wordHtmlOrignal);
+                } else {
+                  matchedArray = [];
+                  break;
+                }
+              } else {
+                matchedArray = [];
+                break;
+              }
+            }
+            if (matchedArray.length === data[l].words.length) {
               replacedArray[k] =
                 "<span class='lolkeg' index='" +
                 l +
                 "'>" +
-                textArray[k] +
+                matchedArray.join(" ") +
                 "</span>";
               changed = true;
               break;
