@@ -14,7 +14,10 @@ The file you upload into the plugin should be a .json file containing a json obj
 ```json
 {
 	"word1": "description goes here",
-	"word2": "description goes here"
+	"word2": "description goes here",
+	"phrase goes here": "description goes here",
+	"linebreaks": "use a \n to create a line break",
+	"links": "you can include hyperlinks, e.g.: http://www.google.com"
 }
 ```
 
