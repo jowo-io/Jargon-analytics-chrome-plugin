@@ -66,7 +66,6 @@ console.log(data);
       var node = element.childNodes[j];
       if (node.nodeType === 3) {
         var text = node.nodeValue;
-        console.log(text);
         var textArray = text.split(" ");
         var replacedArray = [];
         var changed = false;
