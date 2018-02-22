@@ -67,7 +67,7 @@ function compareStrings(str1, str2) {
             for (var m = 0; m < data[l].words.length; m++) {
               var wordHtmlOrignal = textArray[k + m],
                 wordHtmlLC,
-                wordData = data[l].words[m];
+                wordData = data[l].words[m].toLowerCase();
               if (wordHtmlOrignal && wordData) {
                 wordHtmlLC = wordHtmlOrignal
                   .toLowerCase()
