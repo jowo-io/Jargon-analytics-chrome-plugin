@@ -5,7 +5,7 @@
 		<script src="lib/jquery.min.js"></script>
 		<script src="lib/linkify.min.js"></script>
 		<script src="lib/linkify-jquery.min.js"></script>
-		<script defer src="contentscript.js"></script>
+		<script src="contentscript.js"></script>
 		<link rel=stylesheet HREF="page.css" TYPE="text/css">
 	</head>
 	<body>
@@ -16,5 +16,16 @@
 		<div>
 			Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
 		</div>
+		<script>
+			jargonPageSearch({
+				lorem: "The word you're looking at is 'lorum'.",
+				ipsum:
+				  "The word you're looking at is 'ipsum'. \n URL for plugin on GitHub: http://bit.ly/2C8995a",
+		  
+				"of the": "The phrase you're looking at is 'of the'.",
+				"not only five centuries":
+				  "The phrase you're looking at is 'not only five centuries'."
+			  });
+		</script>
 	</body>
 </html>

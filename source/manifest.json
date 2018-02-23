@@ -16,7 +16,7 @@
     "48": "icons/to_48.png",
     "128": "icons/to_128.png"
   },
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "storage"],
   "file_browser_handlers": [
     {
       "id": "upload",

@@ -40,7 +40,9 @@ function updateProgress(event) {
 function loaded(event) {
   var fileString = event.target.result;
   emitData(fileString);
-  $("#feedback").html("New file successfully uploaded.");
+  $("#feedback").html(
+    "New file successfully uploaded. Please refresh the page."
+  );
   $("#feedback").removeClass(); //remove all old classes
   $("#feedback").addClass("success");
 }
