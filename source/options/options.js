@@ -38,31 +38,42 @@ function updateProgress(event) {
 //and parse it to the emitData function to be sent to the contentscript.js file
 //and then updates the feedback element with a success message
 function loaded(event) {
-  var fileString = event.target.result;
-  emitData(fileString);
-  $("#feedback").html(
-    "New file successfully uploaded. Please refresh the page."
-  );
-  $("#feedback").removeClass(); //remove all old classes
-  $("#feedback").addClass("success");
+   var fileString = event.target.result;
+   try {
+     emitData(fileString);
+     $("#feedback").html(
+       "New file successfully uploaded. Please refresh the page."
+     );
+     $("#feedback").removeClass(); //remove all old classes
+     $("#feedback").addClass("success");
+   } catch (error) {
+     $("#feedback").html("There was a scipt error uploading your file. Please contact the developers.");
+     $("#feedback").removeClass(); //remove all old classes
+     $("#feedback").addClass("error");
+   }
 }
 
 //provide some basic feedback for when the upload fails
 function errorHandler(event) {
-  if (event.target.error.name == "NotReadableError") {
-    $("#feedback").html("There was an error uploading your file.");
-    $("#feedback").removeClass(); //remove all old classes
-    $("#feedback").addClass("error");
-  }
+   if (event.target.error.name == "NotReadableError") {
+     $("#feedback").html("There was an error uploading your file.");
+     $("#feedback").removeClass(); //remove all old classes
+     $("#feedback").addClass("error");
+   }
 }
 
 //this function receives the data from the file and then
 //sends it to the any scripts that are listening (contentscript.js)
 //the response is currently only logged to the console, nothing else is done with it.
 function emitData(data) {
-  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, { data: data }, function(response) {
-      console.log(response);
-    });
-  });
+   chrome.tabs.query({}, function (tabs) {
+     var message = { data: data };
+     for (var i = 0; i < tabs.length; ++i) {
+       let jargonData = JSON.parse(data);
+       chrome.storage.local.set({ jargonData: jargonData }, function () {});
+       chrome.tabs.sendMessage(tabs[i].id, message, function (response) {
+         console.log(response);
+       });
+     }
+   });
 }

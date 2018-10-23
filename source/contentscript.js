@@ -195,7 +195,7 @@ function titleCase(str) {
         chrome.storage.local.set
       ) {
         let jargonData = JSON.parse(request.data);
-        chrome.storage.local.set({ jargonData: jargonData }, function() {});
+        jargonPageSearch(jargonData);
       }
     });
   }
